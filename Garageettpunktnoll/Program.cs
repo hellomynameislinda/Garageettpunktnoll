@@ -21,11 +21,12 @@ namespace Garageettpunktnoll
                {
                    services.AddSingleton<ConsoleUI>(); // TODO: Change to Interface when it's ready
                    services.AddSingleton<GarageHandler>(); // TODO: Change to Interface when it's ready
+                   services.AddSingleton<Menu>(); // TODO: Change to Interface when it's ready
                    //       services.AddSingleton<IUI, ConsoleUI>(); // Vi kommer bara använda en version av objektet
                    //       services.AddSingleton<IConfiguration>(config); // Den ska förstå config själv
                    //       services.AddSingleton<IMap, Map>(); // Om man ber om en IMap så får man en map
                    //       services.AddSingleton<IMapService, MapService>();
-                   //       services.AddSingleton<Game>();
+                   services.AddSingleton<ParkingManager>();
                    //       services.AddSingleton<ILimitedList<string>>(new MessageLog<string>(6));
                    //       //                   services.AddSingleton<ILimitedList<Item>>(new MessageLog<Item>(3)); 
                    //       services.AddSingleton<IMapSettings>(config.GetSection("game:mapsettings").Get<MapSettings>()!);
@@ -33,9 +34,9 @@ namespace Garageettpunktnoll
                .UseConsoleLifetime()
                .Build();
 
-
-            ParkingManager parkingManager = new ParkingManager(/*new ConsoleUI(), new Map(width: 10, height: 10)*/);
-            parkingManager.Run();
+            host.Services.GetRequiredService<ParkingManager>().Run();
+            //ParkingManager parkingManager = new ParkingManager();
+            //parkingManager.Run();
 
             Console.WriteLine("Tack för idag!");
             Console.ReadLine();

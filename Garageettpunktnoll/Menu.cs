@@ -11,10 +11,10 @@ namespace Garageettpunktnoll
         private readonly ConsoleUI ui;
         private readonly GarageHandler garageHandler;
 
-        public Menu()
+        public Menu(ConsoleUI ui, GarageHandler gh)
         {
-            ui = new ConsoleUI();
-            garageHandler = new GarageHandler();
+            this.ui = ui;
+            this.garageHandler = gh;
         }
 
         public void DisplayMenu()
@@ -26,7 +26,7 @@ namespace Garageettpunktnoll
             ui.WriteLineGray("S Sök efter fordon i valt garage");
             ui.WriteLine("M Ändra maxkapacitet för valt garage");
             ui.WriteLineGray("G Välj ett annat garage (ej implementerat)");
-            ui.WriteLineGray("N Lägg till ett nytt garage");
+            ui.WriteLine("N Lägg till ett nytt garage");
             ui.WriteLineGray("Q. Avsluta");
         }
 
@@ -54,15 +54,17 @@ namespace Garageettpunktnoll
                 case ConsoleKey.M:
                     //Change current garage capacity
                     ui.WriteLine("Change garage capacity");
-                    garageHandler.changeGarageCapacity();
+                    garageHandler.ChangeGarageCapacity();
                     break;
                 case ConsoleKey.G:
                     //Switch to another garage
+                    //NOTE: Do not implement for now
                     ui.WriteLine("Change to another garage");
                     break;
                 case ConsoleKey.N:
                     //Add a new garage
                     ui.WriteLine("Add new garage");
+                    garageHandler.CreateNewGarage();
                     break;
                 case ConsoleKey.Q:
                     //Quit program

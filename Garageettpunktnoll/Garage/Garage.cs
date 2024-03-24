@@ -22,6 +22,13 @@ namespace Garageettpunktnoll
             parkingSpaces = new T[maxCapacity];
         }
 
+        internal bool UpdateMaxCapacity(int maxCapacity)
+        {
+            // TODO: Check if garage less cars than the new maxCapacity, if so, update maxCapacity. If not return false.
+            MaxCapacity = maxCapacity;
+            return true;
+        }
+
         // Is garage full?
 
     }
