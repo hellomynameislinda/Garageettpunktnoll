@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace Garageettpunktnoll
 {
-    internal class Vehicle
+    internal abstract class Vehicle
     {
         public string RegistrationNumber { get; set; }
+        public string Brand { get; set; }
         public string Color { get; set; }
         public int NumberOfWheels { get; set; }
         public int MaxSpeedKm { get; set; }

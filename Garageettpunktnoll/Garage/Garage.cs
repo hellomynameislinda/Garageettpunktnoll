@@ -9,9 +9,9 @@ namespace Garageettpunktnoll
     internal class Garage<T>
     {
         public string GarageName { get; private set; }
-        public int MaxCapacity { get; private set; }
+        public int MaxCapacity { get; private set; } // TODO: Expand this and throw exception if not between reasonable numbers
 
-        private T[] parkingSpaces;
+        internal T[] parkingSpaces;
 
 
         public Garage(string garageName, int maxCapacity)

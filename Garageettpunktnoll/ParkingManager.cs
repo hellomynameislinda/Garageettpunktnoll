@@ -26,6 +26,7 @@ namespace Garageettpunktnoll
         {
             do
             {
+
                 ui.WriteLine("Väkommen till ParkingManager\n");
 
                 ui.WriteLine($"Du är i garaget {garageHandler.CurrentGarage.GarageName}\n");
