@@ -9,7 +9,7 @@ namespace Garageettpunktnoll
     internal class Garage<T>
     {
         public string GarageName { get; private set; }
-        public int MaxCapacity { get; private set; } // TODO: Expand this and throw exception if not between reasonable numbers
+        public int MaxCapacity { get; private set; } // IFTIME: Expand this and throw exception if not between reasonable numbers
 
         internal T[] parkingSpaces;
 
@@ -24,8 +24,9 @@ namespace Garageettpunktnoll
 
         internal bool UpdateMaxCapacity(int maxCapacity)
         {
-            // TODO: Check if garage less cars than the new maxCapacity, if so, update maxCapacity. If not return false.
+            // IFTIME: Check if garage less cars than the new maxCapacity, if so, update maxCapacity. If not return false.
             MaxCapacity = maxCapacity;
+
             return true;
         }
 

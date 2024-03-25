@@ -53,13 +53,13 @@ namespace Garageettpunktnoll
 
         internal int ReadInt(string label)
         {
-            // TODO: Maybe redo function to recieve a delegate function that checks
+            // IFTIME: Maybe redo function to recieve a delegate function that checks
             string output;
             int intOutput;
             bool clearChecks = false;
+            Console.WriteLine(label);
             do
             {
-                Console.WriteLine(label);
                 output = ReadLine();
 
                 if (int.TryParse(output, out intOutput))

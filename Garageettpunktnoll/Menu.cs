@@ -20,7 +20,7 @@ namespace Garageettpunktnoll
         public void DisplayMenu()
         {
             ui.WriteLine("Välj vad du vill göra:");
-            ui.WriteLineGray("V Visa fordon i valt garage");
+            ui.WriteLine("V Visa fordon i valt garage");
             ui.WriteLineGray("P Parkera nytt fordon i valt garage");
             ui.WriteLineGray("T Ta bort fordon från valt garage");
             ui.WriteLineGray("S Sök efter fordon i valt garage");
@@ -38,6 +38,7 @@ namespace Garageettpunktnoll
                 case ConsoleKey.V:
                     //Display all vehicles in current garage
                     ui.WriteLine("Display all vehicles");
+                    garageHandler.DisplayAllVehicles();
                     break;
                 case ConsoleKey.P:
                     //Park a vehicle in current garage
