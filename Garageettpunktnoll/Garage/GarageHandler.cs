@@ -57,7 +57,7 @@ namespace Garageettpunktnoll
             // IFTIME: Make it less hardcoded and use all types of vehicles!
             Vehicle newSeedVehicle;
             int i;
-            for (i = 1; i < CurrentGarage.parkingSpaces.Length / 2; i++) // Seed half of the parking spaces in current garage
+            for (i = 0; i < (CurrentGarage.parkingSpaces.Length / 2); i++) // Seed half of the parking spaces in current garage
             {
                 int rndNumber;
                 Random rnd = new Random();
@@ -80,8 +80,8 @@ namespace Garageettpunktnoll
                     newSeedVehicle = new Bus
                     {
                         RegistrationNumber = $"ABC{i}{i}{i}",
-                        Brand = "Volvo",
-                        Color = "Green",
+                        Brand = "Scania",
+                        Color = "Red",
                         MaxSpeedKm = 252,
                         NumberOfWheels = 8,
                         MaxPassengers = 82
@@ -93,10 +93,10 @@ namespace Garageettpunktnoll
                     newSeedVehicle = new Motorcycle
                     {
                         RegistrationNumber = $"ABC{i}{i}{i}",
-                        Brand = "Volvo",
-                        Color = "Green",
-                        MaxSpeedKm = 252,
-                        NumberOfWheels = 8,
+                        Brand = "Harley Davidson",
+                        Color = "Black",
+                        MaxSpeedKm = 300,
+                        NumberOfWheels = 2,
                         HasSidecar = false
                     };
                     CurrentGarage.parkingSpaces[i] = newSeedVehicle;
@@ -120,9 +120,68 @@ namespace Garageettpunktnoll
             {
                 if (vehicle is not null)
                 {
-                    ui.WriteLine($"{vehicle.RegistrationNumber}\n");
+                    ui.WriteLine($"{vehicle.RegistrationNumber}");
                 }
             }
+        }
+
+        internal void RemoveVehicle()
+        {
+            string vehicleToRemove;
+            ui.WriteLine("Följande bilar finns i garaget:");
+            DisplayAllVehicleRegNos();
+            vehicleToRemove = ui.ReadString("Ange registreringsnummer för den bil du vill ta bort:");
+
+            // TODO: Remove commented code below, just there for a bit of testing ;)
+            //ui.WriteLine($"Length: {CurrentGarage.parkingSpaces.Length}");
+            //ui.WriteLine($"Linq Count(): {CurrentGarage.parkingSpaces.Count(p => p != null)}");
+
+            ui.WriteLine(vehicleToRemove);
+
+            // TODO: Make case insensitive
+            var index = CurrentGarage.parkingSpaces
+                .Select((vehicle, id) => new { Vehicle = vehicle, Index = id })
+                .FirstOrDefault(ps => ps.Vehicle != null && ps.Vehicle.RegistrationNumber == vehicleToRemove)?
+                .Index ?? -1;
+
+            ui.WriteLine("index" + index);
+
+            if (index == -1) // -1 registration not found
+            {
+                ui.WriteLine($"{vehicleToRemove} verkar inte vara registrerad i garaget");
+            }
+            else
+            {
+                CurrentGarage.parkingSpaces[index] = null!; // Yes, we really want to use a null here!
+            }
+        }
+
+        internal bool ParkVehicle()
+        {
+            if (CurrentGarage.IsFull())
+            {
+                // Leave if garage is empty
+                ui.WriteLine("Garaget är fullt, du måste ta bort ett fordon innan du kan parkera ett nytt.");
+                return false;
+            }
+
+            // TODO: Insert code to add new vehicle! Based on type.
+
+
+            ConsoleKey vehicleType;
+            // TODO: Can this list be automated?
+            vehicleType = ui.ReadKey(
+                "Välj typ av fordon, tryck:\nC för Bil\nB för Buss\nM för Motorcykel\nA för Flygplan\nO för Båt",
+                key => key == ConsoleKey.C || key == ConsoleKey.B || key == ConsoleKey.M || key == ConsoleKey.A || key == ConsoleKey.O);
+
+            // TODO: Get parameter list for correct class
+
+            // Get first empty parking space
+            var lowestIndex = Array.IndexOf(CurrentGarage.parkingSpaces, null);
+
+            // TODO: Create new vehicle on lowestIndex.
+            Console.WriteLine($"LowestIndex: {lowestIndex}");
+            return true;
         }
     }
 }

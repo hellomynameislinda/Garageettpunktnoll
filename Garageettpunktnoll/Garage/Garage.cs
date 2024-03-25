@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Garageettpunktnoll
 {
-    internal class Garage<T>
+    internal class Garage<T> where T : Vehicle
     {
         public string GarageName { get; private set; }
         public int MaxCapacity { get; private set; } // IFTIME: Expand this and throw exception if not between reasonable numbers
@@ -30,7 +30,14 @@ namespace Garageettpunktnoll
             return true;
         }
 
-        // Is garage full?
+        internal bool IsFull()
+        {
+            return MaxCapacity == parkingSpaces.Count(p => p != null);
+        }
+        internal bool IsEmpty()
+        {
+            return 0 == parkingSpaces.Count(p => p != null);
+        }
 
     }
 }

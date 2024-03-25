@@ -8,6 +8,10 @@ namespace Garageettpunktnoll
 {
     internal abstract class Vehicle
     {
+        //// Identifiers for the class
+        //public static string TypeName { get; internal set; } = "Fordon";
+        //public static ConsoleKey TypeKey { get; internal set; } = ConsoleKey.V;
+
         public string RegistrationNumber { get; set; }
         public string Brand { get; set; }
         public string Color { get; set; }

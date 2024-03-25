@@ -77,6 +77,27 @@ namespace Garageettpunktnoll
 
         public ConsoleKey GetKey() => Console.ReadKey(intercept: true).Key;
 
+        public ConsoleKey ReadKey(string label, Func<ConsoleKey, bool> checkAllowed)
+        {
+            Console.WriteLine(label);
+
+            ConsoleKey output;
+            bool clearChecks = false;
+            do
+            {
+                output = GetKey()!;
+                if (!checkAllowed(output))
+                {
+                    clearChecks = false;
+                    Console.WriteLine("Fältet kan inte lämnas tomt. Försök igen:");
+                }
+                else
+                {
+                    clearChecks = true;
+                }
+            } while (!clearChecks);
+            return output;
+        }
 
     }
 }

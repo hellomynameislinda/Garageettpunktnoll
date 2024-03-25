@@ -9,5 +9,9 @@ namespace Garageettpunktnoll
     internal class Airplane : Vehicle
     {
         public int MaxPassengers { get; set; }
+
+        public Airplane()
+        {
+        }
     }
 }
