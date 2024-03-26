@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
@@ -25,7 +26,7 @@ namespace Garageettpunktnoll
             Console.ResetColor();
         }
 
-        private string ReadLine()
+        private string ReadLine(Func<string, bool> checkAllowed = null)
         {
             string output;
             bool clearChecks = false;
@@ -39,13 +40,35 @@ namespace Garageettpunktnoll
                 }
                 else
                 {
-                    clearChecks = true;
+                    if (checkAllowed is not null)
+                    {
+                        if (!checkAllowed(output))
+                        {
+                            Console.WriteLine("Fältet uppfyller inte kraven");
+                            clearChecks = false;
+                        }
+
+                        else
+                        {
+                            clearChecks = true;
+                        }
+                    }
+                    else
+                    {
+                        clearChecks = true;
+                    }
                 }
             } while (!clearChecks);
             return output;
         }
 
         public string ReadString(string label)
+        {
+            Console.WriteLine(label);
+            return ReadLine();
+        }
+
+        public string ReadString(string label, Func<ConsoleKey, bool> checkAllowed)
         {
             Console.WriteLine(label);
             return ReadLine();

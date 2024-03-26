@@ -24,7 +24,9 @@ namespace Garageettpunktnoll
 
         internal bool UpdateMaxCapacity(int maxCapacity)
         {
+            // TODO: Not properly implemented, so far only used for testing.
             // IFTIME: Check if garage less cars than the new maxCapacity, if so, update maxCapacity. If not return false.
+            // IFTIME: Also redo the actual array :)
             MaxCapacity = maxCapacity;
 
             return true;
@@ -36,7 +38,11 @@ namespace Garageettpunktnoll
         }
         internal bool IsEmpty()
         {
-            return 0 == parkingSpaces.Count(p => p != null);
+            return parkingSpaces.Count(p => p != null) == 0;
+        }
+        internal bool RegistrationAvailable(string registrationNo)
+        {
+            return MaxCapacity == parkingSpaces.Count(p => p.RegistrationNumber.ToUpper() == registrationNo.ToUpper());
         }
 
     }

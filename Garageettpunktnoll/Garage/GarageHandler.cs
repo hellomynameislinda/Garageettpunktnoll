@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
@@ -131,17 +132,12 @@ namespace Garageettpunktnoll
             ui.WriteLine("Följande bilar finns i garaget:");
             DisplayAllVehicleRegNos();
             vehicleToRemove = ui.ReadString("Ange registreringsnummer för den bil du vill ta bort:");
-
-            // TODO: Remove commented code below, just there for a bit of testing ;)
-            //ui.WriteLine($"Length: {CurrentGarage.parkingSpaces.Length}");
-            //ui.WriteLine($"Linq Count(): {CurrentGarage.parkingSpaces.Count(p => p != null)}");
-
             ui.WriteLine(vehicleToRemove);
 
             // TODO: Make case insensitive
             var index = CurrentGarage.parkingSpaces
                 .Select((vehicle, id) => new { Vehicle = vehicle, Index = id })
-                .FirstOrDefault(ps => ps.Vehicle != null && ps.Vehicle.RegistrationNumber == vehicleToRemove)?
+                .FirstOrDefault(ps => ps.Vehicle != null && ps.Vehicle.RegistrationNumber.ToLower() == vehicleToRemove.ToLower())?
                 .Index ?? -1;
 
             ui.WriteLine("index" + index);
@@ -165,16 +161,66 @@ namespace Garageettpunktnoll
                 return false;
             }
 
-            // TODO: Insert code to add new vehicle! Based on type.
-
-
             ConsoleKey vehicleType;
-            // TODO: Can this list be automated?
+            // IFTIME: Can this list be automated?
             vehicleType = ui.ReadKey(
                 "Välj typ av fordon, tryck:\nC för Bil\nB för Buss\nM för Motorcykel\nA för Flygplan\nO för Båt",
                 key => key == ConsoleKey.C || key == ConsoleKey.B || key == ConsoleKey.M || key == ConsoleKey.A || key == ConsoleKey.O);
 
-            // TODO: Get parameter list for correct class
+
+            // TODO: Insert code to add new vehicle! Based on type.
+            string regNo = ui.ReadString("Ange registreringsnummer:");
+
+            // Check if registration already exists in garage
+            if (CurrentGarage.RegistrationAvailable(regNo))
+            {
+                ui.WriteLine("Det finns redan en bil i garaget med detta Registreringsnummer.");
+                return false;
+            }
+
+            string brand = ui.ReadString("Ange märke:");
+            string color = ui.ReadString("Ange färg:");
+            int numberOfWheels = ui.ReadInt("Ange antal hjul:");
+            int maxSpeedKm = ui.ReadInt("Ange maxhastighet i kilometer:");
+
+//            switch (vehicleType)
+//            {
+//                case ConsoleKey.C:
+//                    // Add Car
+////                    NoOfDoors
+
+//                    Car newCar = new Car();
+//                    break;
+//                case ConsoleKey.B:
+//                    // Add Bus
+//                    int MaxPassengers = ui.ReadInt("Ange max antal passagerare.");
+//                    Bus newBus = new Bus();
+//                    break;
+//                case ConsoleKey.M:
+//                    //Add Motorcycle
+//                    Motorcycle newVehicle = new Motorcycle();
+
+//                    break;
+//                case ConsoleKey.A:
+//                    //Add Airplane
+//                    newVehicle = new Airplane();
+//                    break;
+//                case ConsoleKey.O:
+//                    //Add Boat
+//                    newVehicle = new Boat();
+//                    break;
+//            }
+
+
+            //{
+            //    RegistrationNumber = $"ABC{i}{i}{i}",
+            //            Brand = "Volvo",
+            //            Color = "Green",
+            //            MaxSpeedKm = 252,
+            //            NumberOfWheels = 4,
+            //            NoOfDoors = 4
+            //        };
+            //CurrentGarage.parkingSpaces[i] = newVehicle;
 
             // Get first empty parking space
             var lowestIndex = Array.IndexOf(CurrentGarage.parkingSpaces, null);
