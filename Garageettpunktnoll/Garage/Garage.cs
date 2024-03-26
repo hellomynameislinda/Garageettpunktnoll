@@ -42,7 +42,7 @@ namespace Garageettpunktnoll
         }
         internal bool RegistrationAvailable(string registrationNo)
         {
-            return MaxCapacity == parkingSpaces.Count(p => p.RegistrationNumber.ToUpper() == registrationNo.ToUpper());
+            return MaxCapacity == parkingSpaces.Count(p => p != null && p.RegistrationNumber.ToUpper() == registrationNo.ToUpper());
         }
 
     }

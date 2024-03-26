@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Garageettpunktnoll
 {
@@ -65,43 +66,17 @@ namespace Garageettpunktnoll
                 rndNumber = rnd.Next(1, 4);
                 if (rndNumber == 1)
                 {
-                    newSeedVehicle = new Car
-                    {
-                        RegistrationNumber = $"ABC{i}{i}{i}",
-                        Brand = "Volvo",
-                        Color = "Green",
-                        MaxSpeedKm = 252,
-                        NumberOfWheels = 4,
-                        NoOfDoors = 4
-                    };
-                    CurrentGarage.parkingSpaces[i] = newSeedVehicle;
+                    newSeedVehicle = new Car($"ABC{i}{i}{i}", "Volvo", "Green",252,4,4);
                 }
                 else if (rndNumber == 2)
                 {
-                    newSeedVehicle = new Bus
-                    {
-                        RegistrationNumber = $"ABC{i}{i}{i}",
-                        Brand = "Scania",
-                        Color = "Red",
-                        MaxSpeedKm = 252,
-                        NumberOfWheels = 8,
-                        MaxPassengers = 82
-                    };
-                    CurrentGarage.parkingSpaces[i] = newSeedVehicle;
+                    newSeedVehicle = new Bus($"ABC{i}{i}{i}", "Scania", "Red", 214, 8, 82);
                 }
                 else
                 {
-                    newSeedVehicle = new Motorcycle
-                    {
-                        RegistrationNumber = $"ABC{i}{i}{i}",
-                        Brand = "Harley Davidson",
-                        Color = "Black",
-                        MaxSpeedKm = 300,
-                        NumberOfWheels = 2,
-                        HasSidecar = false
-                    };
-                    CurrentGarage.parkingSpaces[i] = newSeedVehicle;
+                    newSeedVehicle = new Motorcycle($"ABC{i}{i}{i}", "Harley Davidson", "Black", 300, 2, false);
                 }
+                CurrentGarage.parkingSpaces[i] = newSeedVehicle;
             }
             ui.WriteLine($"Garaget är seedat med {i} fordon.");
         }
@@ -110,7 +85,8 @@ namespace Garageettpunktnoll
         {
             foreach (var vehicle in CurrentGarage.parkingSpaces)
             {
-                if (vehicle is not null) {
+                if (vehicle is not null)
+                {
                     ui.WriteLine($"{vehicle.GetType().Name}\n{vehicle.GetAllProps()}\n");
                 }
             }
@@ -168,6 +144,10 @@ namespace Garageettpunktnoll
                 key => key == ConsoleKey.C || key == ConsoleKey.B || key == ConsoleKey.M || key == ConsoleKey.A || key == ConsoleKey.O);
 
 
+            // Get first empty parking space
+            var lowestIndex = Array.IndexOf(CurrentGarage.parkingSpaces, null);
+
+
             // TODO: Insert code to add new vehicle! Based on type.
             string regNo = ui.ReadString("Ange registreringsnummer:");
 
@@ -183,50 +163,45 @@ namespace Garageettpunktnoll
             int numberOfWheels = ui.ReadInt("Ange antal hjul:");
             int maxSpeedKm = ui.ReadInt("Ange maxhastighet i kilometer:");
 
-//            switch (vehicleType)
-//            {
-//                case ConsoleKey.C:
-//                    // Add Car
-////                    NoOfDoors
 
-//                    Car newCar = new Car();
-//                    break;
-//                case ConsoleKey.B:
-//                    // Add Bus
-//                    int MaxPassengers = ui.ReadInt("Ange max antal passagerare.");
-//                    Bus newBus = new Bus();
-//                    break;
-//                case ConsoleKey.M:
-//                    //Add Motorcycle
-//                    Motorcycle newVehicle = new Motorcycle();
+            Vehicle newVehicle = null!;
+            switch (vehicleType)
+            {
+                case ConsoleKey.C:
+                    // Add Car
+                    int noOfDoors = ui.ReadInt("Ange antal dörrar:");
+                    newVehicle = new Car(regNo, brand, color, numberOfWheels, maxSpeedKm, noOfDoors);
+                    break;
+                case ConsoleKey.B:
+                    // Add Bus
+                    int maxPassengers = ui.ReadInt("Ange max antal passagerare:");
+                    newVehicle = new Bus(regNo, brand, color, numberOfWheels, maxSpeedKm, maxPassengers);
+                    break;
+                case ConsoleKey.M:
+                    //Add Motorcycle
+                    bool hasSidecar = ui.ReadYesNo("Har motorcykeln sidovagn (y/n):");
+                    newVehicle = new Motorcycle(regNo, brand, color, numberOfWheels, maxSpeedKm, hasSidecar);
+                    break;
+                case ConsoleKey.A:
+                    //Add Airplane
+                    maxPassengers = ui.ReadInt("Ange max antal passagerare:");
+                    newVehicle = new Airplane(regNo, brand, color, numberOfWheels, maxSpeedKm, maxPassengers);
+                    break;
+                case ConsoleKey.O:
+                    //Add Boat
+                    string name = ui.ReadString("Ange båtens namn:");
+                    newVehicle = new Boat(regNo, brand, color, numberOfWheels, maxSpeedKm, name);
+                    break;
+            }
 
-//                    break;
-//                case ConsoleKey.A:
-//                    //Add Airplane
-//                    newVehicle = new Airplane();
-//                    break;
-//                case ConsoleKey.O:
-//                    //Add Boat
-//                    newVehicle = new Boat();
-//                    break;
-//            }
+            if (newVehicle == null)
+            {
+                // This should never happen, unless there is a code error, but just in case.
+                ui.WriteLine("Unexpected error, the new vehicle is null and could not be saved.");
+                return false;
+            }
+            CurrentGarage.parkingSpaces[lowestIndex] = newVehicle;
 
-
-            //{
-            //    RegistrationNumber = $"ABC{i}{i}{i}",
-            //            Brand = "Volvo",
-            //            Color = "Green",
-            //            MaxSpeedKm = 252,
-            //            NumberOfWheels = 4,
-            //            NoOfDoors = 4
-            //        };
-            //CurrentGarage.parkingSpaces[i] = newVehicle;
-
-            // Get first empty parking space
-            var lowestIndex = Array.IndexOf(CurrentGarage.parkingSpaces, null);
-
-            // TODO: Create new vehicle on lowestIndex.
-            Console.WriteLine($"LowestIndex: {lowestIndex}");
             return true;
         }
     }

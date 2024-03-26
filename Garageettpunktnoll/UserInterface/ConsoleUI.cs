@@ -26,7 +26,7 @@ namespace Garageettpunktnoll
             Console.ResetColor();
         }
 
-        private string ReadLine(Func<string, bool> checkAllowed = null)
+        private string ReadLine(Func<string, bool>? checkAllowed = null) // Allow null, as this works with or without the delegate function
         {
             string output;
             bool clearChecks = false;
@@ -122,5 +122,33 @@ namespace Garageettpunktnoll
             return output;
         }
 
+        internal bool ReadYesNo(string label)
+        {
+            Console.WriteLine(label);
+
+            ConsoleKey input;
+            bool output = false; // Set to false only because otherwise the funtion complains
+            bool clearChecks = false;
+            do
+            {
+                input = GetKey()!;
+
+                if (input == ConsoleKey.Y)
+                {
+                    output = true;
+                }
+                else if (input == ConsoleKey.N)
+                {
+                    output = false;
+                }
+                else
+                {
+                    clearChecks = false;
+                    Console.WriteLine("Du måste ange 'y' för ja eller 'n' för nej.");
+                }
+            } while (!clearChecks);
+
+            return output;
+        }
     }
 }

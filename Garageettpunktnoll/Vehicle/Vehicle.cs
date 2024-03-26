@@ -18,6 +18,15 @@ namespace Garageettpunktnoll
         public int NumberOfWheels { get; set; }
         public int MaxSpeedKm { get; set; }
 
+        protected Vehicle(string regNo, string brand, string color, int noOfWheels, int maxSpeedKm)
+        {
+            RegistrationNumber = regNo;
+            Brand = brand;
+            Color = color;
+            NumberOfWheels = noOfWheels;
+            MaxSpeedKm = maxSpeedKm;
+        }
+
         public string GetAllProps()
         {
             // These come in the order of declaration in subclass first and then base class

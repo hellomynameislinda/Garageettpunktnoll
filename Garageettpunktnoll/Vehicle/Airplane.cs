@@ -10,8 +10,9 @@ namespace Garageettpunktnoll
     {
         public int MaxPassengers { get; set; }
 
-        public Airplane()
+        public Airplane(string regNo, string brand, string color, int noOfWheels, int maxSpeedKm, int maxPassengers) : base(regNo, brand, color, noOfWheels, maxSpeedKm)
         {
+            MaxPassengers = maxPassengers;
         }
     }
 }
