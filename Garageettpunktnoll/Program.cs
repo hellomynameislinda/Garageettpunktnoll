@@ -10,9 +10,6 @@ namespace Garageettpunktnoll
             // Jag har försökt få med ett exempel på varje koncept vi gått igenom: generiska klasser, delegater, linq.
             // Jag har skapat ett interface, men lyckas inte använda det (trots att jag tycker att jag gjort som på
             // föreläsningarna. Så här finns lite att läsa på igen.
-            // Jag skapade ett par test, och insåg att min check för att se om registreringsnummer är ledigt i garaget
-            // inte funkar som den ska. Så testet gjorde sitt jobb, men jag hinner inte lösa felet innan 11.00...
-
 
 
 
