@@ -159,7 +159,7 @@ namespace Garageettpunktnoll
             string regNo = ui.ReadString("Ange registreringsnummer:").ToUpper();
 
             // Check if registration already exists in garage
-            if (CurrentGarage.RegistrationAvailable(regNo))
+            if (!CurrentGarage.RegistrationAvailable(regNo))
             {
                 ui.WriteLine("Det finns redan en bil i garaget med detta Registreringsnummer.");
                 return false;
@@ -233,6 +233,7 @@ namespace Garageettpunktnoll
             {
                 string[] keyvalue = part.Split(':');
 
+                // TODO: Remove leading and trailing spaces från both key and value
                 switch (keyvalue[0].ToLower())
                 {
                     case "type":

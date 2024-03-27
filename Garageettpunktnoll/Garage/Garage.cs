@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+
+[assembly: InternalsVisibleTo("Garageettpunktnoll.MSTest")]
 
 namespace Garageettpunktnoll
 {
@@ -11,7 +14,7 @@ namespace Garageettpunktnoll
         public string GarageName { get; private set; }
         public int MaxCapacity { get; private set; } // IFTIME: Expand this and throw exception if not between reasonable numbers
 
-        internal T[] parkingSpaces;
+        public T[] parkingSpaces;
 
 
         public Garage(string garageName, int maxCapacity)
@@ -22,7 +25,7 @@ namespace Garageettpunktnoll
             parkingSpaces = new T[maxCapacity];
         }
 
-        internal bool UpdateMaxCapacity(int maxCapacity)
+        public bool UpdateMaxCapacity(int maxCapacity)
         {
             // TODO: Not properly implemented, so far only used for testing.
             // IFTIME: Check if garage less cars than the new maxCapacity, if so, update maxCapacity. If not return false.
@@ -32,17 +35,17 @@ namespace Garageettpunktnoll
             return true;
         }
 
-        internal bool IsFull()
+        public bool IsFull()
         {
             return MaxCapacity == parkingSpaces.Count(p => p != null);
         }
-        internal bool IsEmpty()
+        public bool IsEmpty()
         {
             return parkingSpaces.Count(p => p != null) == 0;
         }
-        internal bool RegistrationAvailable(string registrationNo)
+        public bool RegistrationAvailable(string registrationNo) // TODO: Something goes 
         {
-            return MaxCapacity == parkingSpaces.Count(p => p != null && p.RegistrationNumber.ToUpper() == registrationNo.ToUpper());
+            return (parkingSpaces.Count(p => p != null && p.RegistrationNumber.ToUpper() == registrationNo.ToUpper())) > 0 ? false : true;
         }
 
     }

@@ -7,6 +7,18 @@ namespace Garageettpunktnoll
     {
         static void Main(string[] args)
         {
+            // Jag har försökt få med ett exempel på varje koncept vi gått igenom: generiska klasser, delegater, linq.
+            // Jag har skapat ett interface, men lyckas inte använda det (trots att jag tycker att jag gjort som på
+            // föreläsningarna. Så här finns lite att läsa på igen.
+            // Jag skapade ett par test, och insåg att min check för att se om registreringsnummer är ledigt i garaget
+            // inte funkar som den ska. Så testet gjorde sitt jobb, men jag hinner inte lösa felet innan 11.00...
+
+
+
+
+
+
+            // TODO: Read/Write to file
             //Cusing Microsoft.Extensions.Configuration; // Kommer från ett externt library, se dependencis
 
             //IConfiguration config = new ConfigurationBuilder()
@@ -22,14 +34,7 @@ namespace Garageettpunktnoll
                    services.AddSingleton<ConsoleUI>(); // TODO: Change to Interface when it's ready
                    services.AddSingleton<GarageHandler>(); // TODO: Change to Interface when it's ready
                    services.AddSingleton<Menu>(); // TODO: Change to Interface when it's ready
-                   //       services.AddSingleton<IUI, ConsoleUI>(); // Vi kommer bara använda en version av objektet
-                   //       services.AddSingleton<IConfiguration>(config); // Den ska förstå config själv
-                   //       services.AddSingleton<IMap, Map>(); // Om man ber om en IMap så får man en map
-                   //       services.AddSingleton<IMapService, MapService>();
                    services.AddSingleton<ParkingManager>();
-                   //       services.AddSingleton<ILimitedList<string>>(new MessageLog<string>(6));
-                   //       //                   services.AddSingleton<ILimitedList<Item>>(new MessageLog<Item>(3)); 
-                   //       services.AddSingleton<IMapSettings>(config.GetSection("game:mapsettings").Get<MapSettings>()!);
                })
                .UseConsoleLifetime()
                .Build();
