@@ -26,7 +26,7 @@ namespace Garageettpunktnoll
         {
             do
             {
-
+                ui.Clear();
                 ui.WriteLine("Väkommen till ParkingManager\n");
 
                 ui.WriteLine($"Du är i garaget {garageHandler.CurrentGarage.GarageName}\n");
@@ -35,7 +35,7 @@ namespace Garageettpunktnoll
                 menu.DisplayMenu();
                 menu.HandleChoice();
 
-                // TODO: Add a log of sorts.
+                ui.ReadAnything("Tryck enter för att komma tillbaka till menyn.");
             } while (true);
         }
     }

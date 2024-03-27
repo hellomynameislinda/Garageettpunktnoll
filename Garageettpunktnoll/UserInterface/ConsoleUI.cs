@@ -74,6 +74,12 @@ namespace Garageettpunktnoll
             return ReadLine();
         }
 
+        public string ReadAnything(string label)
+        {
+            Console.WriteLine(label);
+            return Console.ReadLine()!; // Don't care if this is emtpy, it should only be used to pause application after action
+        }
+
         internal int ReadInt(string label)
         {
             // IFTIME: Maybe redo function to recieve a delegate function that checks

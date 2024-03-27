@@ -21,7 +21,7 @@ namespace Garageettpunktnoll
         {
             ui.WriteLine("Välj vad du vill göra:");
             ui.WriteLine("V Visa fordon i valt garage");
-            ui.WriteLineGray("P Parkera nytt fordon i valt garage");
+            ui.WriteLine("P Parkera nytt fordon i valt garage");
             ui.WriteLine("T Ta bort fordon från valt garage");
             ui.WriteLineGray("S Sök efter fordon i valt garage");
             ui.WriteLineGray("M Ändra maxkapacitet för valt garage (ej implementerat)");
@@ -53,11 +53,12 @@ namespace Garageettpunktnoll
                 case ConsoleKey.S:
                     //Search for vehicle
                     ui.WriteLine("Search for vehicles");
+                    garageHandler.SearchVehicles();
                     break;
                 case ConsoleKey.M:
                     //Change current garage capacity
                     ui.WriteLineGray("Change garage capacity");
-                    garageHandler.ChangeGarageCapacity();
+                    //garageHandler.ChangeGarageCapacity();
                     break;
                 case ConsoleKey.G:
                     //Switch to another garage

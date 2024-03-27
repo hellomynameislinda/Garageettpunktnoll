@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
@@ -38,7 +39,7 @@ namespace Garageettpunktnoll
             string newGarageName;
             int newGarageCapacity = int.MinValue;
 
-            newGarageName = ui.ReadString("Ange garagets namn: ");
+            newGarageName = ui.ReadString("Ange garagets namn:");
             newGarageCapacity = ui.ReadInt("Ange antal parkeringsplatser:");
 
             Garage<Vehicle> newGarage = new Garage<Vehicle>(newGarageName, newGarageCapacity);
@@ -57,6 +58,10 @@ namespace Garageettpunktnoll
         internal void SeedVehicles()
         {
             // IFTIME: Make it less hardcoded and use all types of vehicles!
+            string[] colors = { "Black", "Blue", "Green", "Red", "White" };
+            string[] brands = { "Harley-Davidson", "Ducati", "Honda", "Fiat", "Trabant", "Oldsmobile", "Volvo", "Saab" };
+            string alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
             Vehicle newSeedVehicle;
             int i;
             for (i = 0; i < (CurrentGarage.parkingSpaces.Length / 2); i++) // Seed half of the parking spaces in current garage
@@ -64,17 +69,19 @@ namespace Garageettpunktnoll
                 int rndNumber;
                 Random rnd = new Random();
                 rndNumber = rnd.Next(1, 4);
+                string randomRegNo = $"{alpha.ElementAt(rnd.Next(1, 26))}{alpha.ElementAt(rnd.Next(1, 26))}{alpha.ElementAt(rnd.Next(1, 26))}{rnd.Next(0, 10)}{rnd.Next(0, 10)}{rnd.Next(0, 10)}";
+
                 if (rndNumber == 1)
                 {
-                    newSeedVehicle = new Car($"ABC{i}{i}{i}", "Volvo", "Green",252,4,4);
+                    newSeedVehicle = new Car($"{randomRegNo}", brands[rnd.Next(2, 8)], colors[rnd.Next(0,5)],4,rnd.Next(180, 251), rnd.Next(2, 6));
                 }
                 else if (rndNumber == 2)
                 {
-                    newSeedVehicle = new Bus($"ABC{i}{i}{i}", "Scania", "Red", 214, 8, 82);
+                    newSeedVehicle = new Bus($"{randomRegNo}", brands[rnd.Next(6, 8)], colors[rnd.Next(0, 5)], 8, rnd.Next(90, 181), rnd.Next(24, 121));
                 }
                 else
                 {
-                    newSeedVehicle = new Motorcycle($"ABC{i}{i}{i}", "Harley Davidson", "Black", 300, 2, false);
+                    newSeedVehicle = new Motorcycle($"{randomRegNo}", brands[rnd.Next(0, 3)], colors[rnd.Next(0, 5)], 2, rnd.Next(170, 236), false);
                 }
                 CurrentGarage.parkingSpaces[i] = newSeedVehicle;
             }
@@ -149,7 +156,7 @@ namespace Garageettpunktnoll
 
 
             // TODO: Insert code to add new vehicle! Based on type.
-            string regNo = ui.ReadString("Ange registreringsnummer:");
+            string regNo = ui.ReadString("Ange registreringsnummer:").ToUpper();
 
             // Check if registration already exists in garage
             if (CurrentGarage.RegistrationAvailable(regNo))
@@ -203,6 +210,89 @@ namespace Garageettpunktnoll
             CurrentGarage.parkingSpaces[lowestIndex] = newVehicle;
 
             return true;
+        }
+
+        internal void SearchVehicles()
+        {
+            string searchString = ui.ReadString("Ange de termer du vill söka på, separerade med mellanslag (t.ex. \"type:car color:röd\"\n" +
+                "Tillgängliga filter: type, regNo, brand, color, noWheels, maxSpeed, noDoors, maxPass, sidecar, name):");
+            string[] search = searchString.Split(' ');
+
+            string type = null!;
+            string regNo = null!;
+            string brand = null!;
+            string color = null!;
+            int? noWheels = null;
+            int? maxSpeed = null;
+            int? noDoors = null;
+            int? maxPass = null;
+            bool? sidecar = null;
+            string name = null!;
+
+            foreach (string part in search)
+            {
+                string[] keyvalue = part.Split(':');
+
+                switch (keyvalue[0].ToLower())
+                {
+                    case "type":
+                        type = keyvalue[1].ToLower();
+                        break;
+                    case "regNo":
+                        regNo = keyvalue[1].ToLower();
+                        break;
+                    case "brand":
+                        brand = keyvalue[1].ToLower();
+                        break;
+                    case "color":
+                        color = keyvalue[1].ToLower();
+                        break;
+                    case "noWheels":
+                        noWheels = int.TryParse(keyvalue[1], out int parsedInt) ? parsedInt : null;
+                        break;
+                    case "maxSpeed":
+                        maxSpeed = int.TryParse(keyvalue[1], out parsedInt) ? parsedInt : null;
+                        break;
+                    case "noDoors":
+                        noDoors = int.TryParse(keyvalue[1], out parsedInt) ? parsedInt : null;
+                        break;
+                    case "maxPass":
+                        maxPass = int.TryParse(keyvalue[1], out parsedInt) ? parsedInt : null;
+                        break;
+                    case "sidecar":
+                        sidecar = Boolean.TryParse(keyvalue[1], out bool parsedBool) ? parsedBool : null;
+                        break;
+                    case "name":
+                        name = keyvalue[1].ToLower();
+                        break;
+                }
+            }
+
+            IEnumerable<Vehicle> vehicles = CurrentGarage.parkingSpaces;
+
+            if (!string.IsNullOrEmpty(type))
+            {
+                vehicles = vehicles.Where(v => v != null && v.GetType().Name.ToLower() == type);
+            }
+            if (!string.IsNullOrEmpty(regNo))
+            {
+                vehicles = vehicles.Where(v => v != null && v.RegistrationNumber.ToLower() == regNo);
+            }
+            if (!string.IsNullOrEmpty(brand))
+            {
+                vehicles = vehicles.Where(v => v != null && v.Brand.ToLower() == brand);
+            }
+            if (!string.IsNullOrEmpty(color))
+            {
+                vehicles = vehicles.Where(v => v != null && v.Color.ToLower() == color);
+            }
+
+            foreach (Vehicle vehicle in vehicles)
+            {
+                ui.WriteLine("Filtret ger följande fordon:");
+                ui.WriteLine($"{vehicle.RegistrationNumber} som är en {vehicle.Color} {vehicle.Brand} {vehicle.GetType().Name}.");
+            }
+
         }
     }
 }
