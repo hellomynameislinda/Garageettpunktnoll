@@ -8,10 +8,10 @@ namespace Garageettpunktnoll
 {
     internal class Menu
     {
-        private readonly ConsoleUI ui;
+        private readonly IConsoleUI ui;
         private readonly GarageHandler garageHandler;
 
-        public Menu(ConsoleUI ui, GarageHandler gh)
+        public Menu(IConsoleUI ui, GarageHandler gh)
         {
             this.ui = ui;
             this.garageHandler = gh;

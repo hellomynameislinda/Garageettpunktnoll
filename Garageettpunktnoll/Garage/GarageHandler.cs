@@ -15,9 +15,9 @@ namespace Garageettpunktnoll
         private List<Garage<Vehicle>> garages = new List<Garage<Vehicle>>();
         public Garage<Vehicle> CurrentGarage { get; private set; }
 
-        private readonly ConsoleUI ui;
+        private readonly IConsoleUI ui;
 
-        public GarageHandler(ConsoleUI ui)
+        public GarageHandler(IConsoleUI ui)
         {
             this.ui = ui;
             // Using ONE hard coded instance of garage for now.

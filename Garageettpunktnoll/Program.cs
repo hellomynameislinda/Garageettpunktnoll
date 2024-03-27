@@ -28,7 +28,7 @@ namespace Garageettpunktnoll
             var host = Host.CreateDefaultBuilder(args) // Host egentligen skrivet för webbapplikationer
                .ConfigureServices(services => // Delegat m. Lambda
                {
-                   services.AddSingleton<ConsoleUI>(); // TODO: Change to Interface when it's ready
+                   services.AddSingleton<IConsoleUI, ConsoleUI>();
                    services.AddSingleton<GarageHandler>(); // TODO: Change to Interface when it's ready
                    services.AddSingleton<Menu>(); // TODO: Change to Interface when it's ready
                    services.AddSingleton<ParkingManager>();

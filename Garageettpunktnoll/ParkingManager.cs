@@ -9,13 +9,13 @@ namespace Garageettpunktnoll
 {
     internal class ParkingManager
     {
-        private ConsoleUI ui;
+        private IConsoleUI ui;
         private GarageHandler garageHandler;
 
         private Menu menu;
 
 
-        public ParkingManager(ConsoleUI ui, GarageHandler gh, Menu menu)
+        public ParkingManager(IConsoleUI ui, GarageHandler gh, Menu menu)
         {
             this.ui = ui;
             this.garageHandler = gh;

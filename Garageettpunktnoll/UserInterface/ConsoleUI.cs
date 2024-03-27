@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Garageettpunktnoll
 {
-    internal class ConsoleUI
+    internal class ConsoleUI : IConsoleUI
     {
         public void Clear()
         {
@@ -80,7 +80,7 @@ namespace Garageettpunktnoll
             return Console.ReadLine()!; // Don't care if this is emtpy, it should only be used to pause application after action
         }
 
-        internal int ReadInt(string label)
+        public int ReadInt(string label)
         {
             // IFTIME: Maybe redo function to recieve a delegate function that checks
             string output;
@@ -128,7 +128,7 @@ namespace Garageettpunktnoll
             return output;
         }
 
-        internal bool ReadYesNo(string label)
+        public bool ReadYesNo(string label)
         {
             Console.WriteLine(label);
 
